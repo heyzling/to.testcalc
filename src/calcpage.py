@@ -14,16 +14,17 @@ class CalcPage(Page):
     @property
     def convertation_block(self):
         ''' Блок конвертации валют '''
-        return ConvertationBlock(self._driver)
+        return ConvertationBlock(self)
 
 
 
 class ConvertationBlock(Block):
     ''' Блок конвертации валют. Главный управляющий блок приложения на странице. '''
 
-    def __init__(self, driver):
-        self._driver = driver
-        self._el = driver.find_element(*Locators.CONVERTATION_BLOCK)
+    def __init__(self, parent_page):
+        self._parent_page = parent_page
+        self._driver = parent_page._driver
+        self._el = self._driver.find_element(*Locators.CONVERTATION_BLOCK)
 
     def __get_el_title(self):
         return self._el.find_element(*Locators.CONVERTATION_BLOCK_TITLE)
