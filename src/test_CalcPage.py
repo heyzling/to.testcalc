@@ -2,9 +2,10 @@ import drivers
 from calcpage import CalcPage
 
 
-class TestSuite_SberbankCalc():
+class TestSuite_CalcPage():
 
-    def test_one(self):
+    def test_set_currency_from(self):
+        ''' Установки валюты в поле "ИЗ" '''
         pass
 
 
