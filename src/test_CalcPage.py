@@ -3,10 +3,10 @@ import drivers
 from calcpage import CalcPage
 
 
-class TestSuite_CalcPage():
+class Test_CalcPage():
 
     def setup_class(cls):
-        cls.calc_page = CalcPage(drivers.chrome(), 'http://www.sberbank.ru/ru/quotes/converter')
+        cls.calc_page = CalcPage(drivers.chrome(set_headless=False, quit_driver_at_exit=True), 'http://www.sberbank.ru/ru/quotes/converter')
 
     def test_title(self):
         assert self.calc_page.title == 'Калькулятор иностранных валют'
@@ -30,7 +30,7 @@ class TestSuite_CalcPage():
 
     @pytest.mark.run(after='test_convertation_get_currency_from')
     def test_convertation_set_currency_from(self):
-        new_currency_from = 'EUR'
+        new_currency_from = 'CZK'
         self.calc_page.convertation_block.currency_from = new_currency_from
         assert self.calc_page.convertation_block.currency_from == new_currency_from
 
@@ -40,7 +40,7 @@ class TestSuite_CalcPage():
 
     @pytest.mark.run(after='test_convertation_get_currency_to')
     def test_convertation_set_currency_to(self):
-        new_currency_to = 'GBP'
+        new_currency_to = 'SGD'
         self.calc_page.convertation_block.currency_to = new_currency_to
         assert self.calc_page.convertation_block.currency_to == new_currency_to
 
@@ -50,4 +50,17 @@ class TestSuite_CalcPage():
 
 
 if __name__ == '__main__':
-    pass
+    # tst = Test_CalcPage()
+    # tst.setup_class()
+    # tst.test_convertation_set_currency_to()
+    # Test_CalcPage().test_convertation_set_currency_from()
+    # import time
+    # page = CalcPage(drivers.chrome(False), 'http://www.sberbank.ru/ru/quotes/converter')
+    # # page.convertation_block.currency_from = 'USD'
+    # # page.convertation_block.currency_from = 'EUR'
+    # # page.convertation_block.currency_from = 'KZT'
+    # # page.convertation_block.currency_from = 'RUB'
+
+    # page.convertation_block.currency_to = 'KZT'
+    # time.sleep(5)
+    

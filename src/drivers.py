@@ -20,6 +20,11 @@ def chrome(set_headless = True, driver_path = None, quit_driver_at_exit = True):
 
     options = Options()
     options.set_headless(set_headless)
+
+    # игнорировать ошибки серитфикатов и SSl. Иначе из-за этого периодически валятся тест с ошибкой
+    options.add_argument('--ignore-certificate-errors-spki-list')
+    options.add_argument('--ignore-certificate-errors')
+    options.add_argument('--ignore-ssl-errors')
     
     driver = webdriver.Chrome(executable_path=driver_path, options=options)
 
