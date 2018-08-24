@@ -44,23 +44,18 @@ class Test_CalcPage():
         self.calc_page.convertation_block.currency_to = new_currency_to
         assert self.calc_page.convertation_block.currency_to == new_currency_to
 
-    # def test_set_currency_from(self):
-    #     ''' Установки валюты в поле "ИЗ" '''
-    #     pass
-
 
 if __name__ == '__main__':
-    # tst = Test_CalcPage()
-    # tst.setup_class()
-    # tst.test_convertation_set_currency_to()
-    # Test_CalcPage().test_convertation_set_currency_from()
+    tst = Test_CalcPage()
+    tst.setup_class()
+    tst.test_convertation_set_currency_from()
+    tst.test_convertation_set_currency_to()
+    # Test_CalcPage().test_convertation_set_currency_to()
     # import time
     # page = CalcPage(drivers.chrome(False), 'http://www.sberbank.ru/ru/quotes/converter')
-    # # page.convertation_block.currency_from = 'USD'
-    # # page.convertation_block.currency_from = 'EUR'
-    # # page.convertation_block.currency_from = 'KZT'
-    # # page.convertation_block.currency_from = 'RUB'
+    # # # page.convertation_block.currency_from = 'USD'
+    # # # page.convertation_block.currency_from = 'EUR'
+    # # # page.convertation_block.currency_from = 'KZT'
+    # # # page.convertation_block.currency_from = 'RUB'
 
     # page.convertation_block.currency_to = 'KZT'
-    # time.sleep(5)
-    

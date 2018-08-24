@@ -11,6 +11,18 @@ from tools import Actions
 
 class CalcPage(Page):
 
+    def __init__(self, driver, url):
+        self._driver = driver
+        self._url = url
+        self._driver.get(url)
+        
+        # отключить назойливую плашку с сообщением о политике сборка Кук. Из-за нее едет весь скрипт
+        policy_close = WebDriverWait(self._driver, 2).until(EC.presence_of_element_located(Locators.CLOSE_POLICY))
+        actions = Actions(self._driver)
+        actions.move_to_element(policy_close)
+        actions.click()
+        actions.perform()
+
     @property
     def title(self):
         ''' Текста заголовка страницы '''
