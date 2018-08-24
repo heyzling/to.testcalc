@@ -19,3 +19,7 @@ class Actions(ActionChains):
         self._actions.append(lambda: time.sleep(seconds))
         return self
 
+    def execute_script(self, script, arg):
+        ''' выполнить скрипт связанный с элементом '''
+        self._driver.execute_script(script, arg)
+        return self
