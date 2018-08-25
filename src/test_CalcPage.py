@@ -6,7 +6,7 @@ from calcpage import CalcPage
 class Test_CalcPage():
 
     def setup_class(cls):
-        cls.calc_page = CalcPage(drivers.chrome(set_headless=False, quit_driver_at_exit=True), 'http://www.sberbank.ru/ru/quotes/converter')
+        cls.calc_page = CalcPage(drivers.chrome(), 'http://www.sberbank.ru/ru/quotes/converter')
 
     def test_title(self):
         assert self.calc_page.title == 'Калькулятор иностранных валют'

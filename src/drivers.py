@@ -6,7 +6,7 @@ import atexit
 from selenium import webdriver
 
 
-def chrome(set_headless = True, driver_path = None, quit_driver_at_exit = True):
+def chrome(set_headless = False, driver_path = None, quit_driver_at_exit = True):
     ''' Драйвер для бразуера Chrome
     set_headless - указывает, нужно ли запускать браузер в headless режиме (режим без отображения UI)
     driver_path - путь до драйвера. Если не указан, драйвер скачается автоматически.
@@ -33,7 +33,7 @@ def chrome(set_headless = True, driver_path = None, quit_driver_at_exit = True):
 
     return driver
 
-def firefox(set_headless = True, driver_path = None, quit_driver_at_exit = True):
+def firefox(set_headless = False, driver_path = None, quit_driver_at_exit = True):
     ''' Драйвер для бразуера Firefox
     set_headless - указывает, нужно ли запускать браузер в headless режиме (режим без отображения UI)
     driver_path - путь до драйвера. Если не указан, драйвер скачается автоматически.
