@@ -23,13 +23,13 @@ class Test_CalcPage():
 
     @pytest.mark.order1
     def test_convertation_get_summa(self):
-        assert self.calc_page.convertation_block.summa == '100'
+        assert self.calc_page.convertation_block.summa == '100,00'
 
     @pytest.mark.run(after='test_convertation_get_summa')
     def test_convertation_set_summa(self):
         new_summa = 1234567
         self.calc_page.convertation_block.summa = new_summa
-        assert self.calc_page.convertation_block.summa.replace(' ', '') == str(new_summa)
+        assert self.calc_page.convertation_block.summa.replace(' ', '') == str(new_summa) + ',00'
 
     @pytest.mark.order1
     def test_convertation_get_currency_from(self):

@@ -81,11 +81,7 @@ class ConvertationBlock():
     @property
     def summa(self):
         ''' Сумма конвертации '''
-        sum = self._get_el_summa().get_attribute('value')
-        # калькулятор использует значения формата ddd,dd, но в поле ввода можно без них. Для стандартизации добавляю их сюда
-        if ',' not in sum:
-            sum += ',00'
-        return sum
+        return self.format_sum(self._get_el_summa().get_attribute('value'))
 
     @summa.setter
     def summa(self, value):
@@ -129,3 +125,10 @@ class ConvertationBlock():
         # возвращение результата - суммы конвертации
         convertation_result = self._get_el_result_to().text[:-4] # последние 4 символ - это пробел + код валюты
         return convertation_result
+
+    def format_sum(self, sum):
+        ''' Форматированние суммы. Для стандартизация. '''
+        # калькулятор использует значения формата ddd,dd, но в поле ввода можно без них. Для стандартизации добавляю их сюда
+        if ',' not in sum:
+            sum += ',00'
+        return sum
