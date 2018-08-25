@@ -5,11 +5,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import TimeoutException
 from locators import Locators
-from base import Page
-from base import Block
 from tools import Actions
 
-class CalcPage(Page):
+class CalcPage():
 
     def __init__(self, driver, url):
         self._driver = driver
@@ -35,7 +33,7 @@ class CalcPage(Page):
 
 
 
-class ConvertationBlock(Block):
+class ConvertationBlock():
     ''' Блок конвертации валют. Главный управляющий блок приложения на странице. '''
 
     def __init__(self, parent_page):
