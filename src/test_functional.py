@@ -30,7 +30,7 @@ class TestFunctional(object):
     scenarios = get_scenarios(SCENARIOS_XML)
 
     def setup_class(cls):
-        cls.calc = CalcPage(drivers.chrome(), 'http://www.sberbank.ru/ru/quotes/converter')
+        cls.calc = CalcPage(drivers.chrome(True), 'http://www.sberbank.ru/ru/quotes/converter')
 
     def test_calc(self, sum, cur_from, cur_to, expect):
         ''' параметризированный тест правильность подсчета '''

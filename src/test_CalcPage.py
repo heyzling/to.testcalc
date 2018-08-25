@@ -7,7 +7,7 @@ from decimal import *
 class Test_CalcPage():
 
     def setup_class(cls):
-        cls.calc_page = CalcPage(drivers.chrome(), 'http://www.sberbank.ru/ru/quotes/converter')
+        cls.calc_page = CalcPage(drivers.chrome(True), 'http://www.sberbank.ru/ru/quotes/converter')
 
     def test_title(self):
         assert self.calc_page.title == 'Калькулятор иностранных валют'

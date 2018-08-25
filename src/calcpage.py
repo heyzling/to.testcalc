@@ -18,6 +18,7 @@ class CalcPage():
         # отключить назойливую плашку с сообщением о политике сборка Кук. Из-за нее едет весь скрипт
         policy_close = WebDriverWait(self._driver, 2).until(EC.presence_of_element_located(Locators.CLOSE_POLICY))
         self._driver.execute_script('arguments[0].click()', policy_close)
+        WebDriverWait(self._driver, 2).until_not(EC.visibility_of_element_located(Locators.CLOSE_POLICY))
 
     @property
     def title(self):
