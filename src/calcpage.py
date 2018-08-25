@@ -1,4 +1,3 @@
-from decimal import *
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -8,7 +7,6 @@ from selenium.common.exceptions import TimeoutException
 from locators import Locators
 from tools import Actions
 
-getcontext().prec = 2
 ''' кол-во цифр после запятой у конвертируемых сумм '''
 class CalcPage():
 
@@ -124,6 +122,5 @@ class ConvertationBlock():
         # TODO
 
         # возвращение результата - суммы конвертации
-        convertation_result = self._get_el_result_to().text.split(' ')[0].replace(',', '.')
-        convertation_result = Decimal(convertation_result)
+        convertation_result = self._get_el_result_to().text.split(' ')[0]
         return convertation_result

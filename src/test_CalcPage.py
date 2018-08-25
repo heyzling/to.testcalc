@@ -18,8 +18,7 @@ class Test_CalcPage():
     @pytest.mark.order0
     def test_convert(self):
         convertation_result = self.calc_page.convertation_block.convert()
-        assert convertation_result != Decimal('NaN')
-        assert convertation_result > 0
+        assert re.match('\d{1,},\d{2}', convertation_result) is not None
         # assert convertation_result == Decimal('1.47') # курс меняется. Временная проверка.
 
     @pytest.mark.order1
