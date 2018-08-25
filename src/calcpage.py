@@ -1,3 +1,4 @@
+from decimal import *
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -7,6 +8,8 @@ from selenium.common.exceptions import TimeoutException
 from locators import Locators
 from tools import Actions
 
+getcontext().prec = 2
+''' кол-во цифр после запятой у конвертируемых сумм '''
 class CalcPage():
 
     def __init__(self, driver, url):
@@ -16,10 +19,7 @@ class CalcPage():
         
         # отключить назойливую плашку с сообщением о политике сборка Кук. Из-за нее едет весь скрипт
         policy_close = WebDriverWait(self._driver, 2).until(EC.presence_of_element_located(Locators.CLOSE_POLICY))
-        actions = Actions(self._driver)
-        actions.move_to_element(policy_close)
-        actions.click()
-        actions.perform()
+        self._driver.execute_script('arguments[0].click()', policy_close)
 
     @property
     def title(self):
@@ -30,8 +30,6 @@ class CalcPage():
     def convertation_block(self):
         ''' Блок конвертации валют '''
         return ConvertationBlock(self)
-
-
 
 class ConvertationBlock():
     ''' Блок конвертации валют. Главный управляющий блок приложения на странице. '''
@@ -61,6 +59,21 @@ class ConvertationBlock():
                 lambda el: self._el.find_element(
                     By.XPATH, '//div[@class="visible"]/span[contains(text(), "{0}")]'.format(currency_name)),
                     message="Указанная валюта '{0}' не найдена. Проверьте, что список открыт, и что валюта в нем существует.".format(currency_name))
+    def _get_el_show_button(self):
+        ''' Кнопка Показать, которая запускает вычисления '''
+        return self._el.find_element(By.CLASS_NAME, 'rates-button')
+    def _get_el_result_from(self):
+        ''' результат конвертации - часть с суммой ИЗ которой конвертировали '''
+        return WebDriverWait(self._driver, 2).until(
+                lambda el: self._driver.find_element(
+                    By.CSS_SELECTOR, 'span.rates-converter-result__total-from'),
+                    message='Элемент не найден. Убедитесь, что была нажата кнопка Показать')
+    def _get_el_result_to(self):
+        ''' результат конвертации - часть с суммой В которую конвертировали '''
+        return WebDriverWait(self._driver, 2).until(
+                lambda el: self._driver.find_element(
+                    By.CSS_SELECTOR, 'span.rates-converter-result__total-to'),
+                    message='Элемент не найден. Убедитесь, что была нажата кнопка Показать и что указанная пара валют котируется.')
 
     # ------ Свойства для клиентского кода
 
@@ -102,3 +115,15 @@ class ConvertationBlock():
         ''' Целевая валюта В которую происходит конвертация '''
         self._get_el_currency_to().click()
         self._get_el_currency_item(value).click()
+
+    def convert(self):
+        ''' Нажимает кнопку Показать. Возвращает сконвертированную сумму '''
+        self._get_el_show_button().click()
+
+        # проверка на ошибки при конвертации
+        # TODO
+
+        # возвращение результата - суммы конвертации
+        convertation_result = self._get_el_result_to().text.split(' ')[0].replace(',', '.')
+        convertation_result = Decimal(convertation_result)
+        return convertation_result

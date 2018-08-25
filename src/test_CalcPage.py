@@ -1,7 +1,8 @@
 import pytest
 import drivers
+import re
 from calcpage import CalcPage
-
+from decimal import *
 
 class Test_CalcPage():
 
@@ -14,10 +15,17 @@ class Test_CalcPage():
     def test_convertation_title(self):
         assert self.calc_page.convertation_block.title == 'Конвертация'
 
+    @pytest.mark.order0
+    def test_convert(self):
+        convertation_result = self.calc_page.convertation_block.convert()
+        assert convertation_result != Decimal('NaN')
+        assert convertation_result > 0
+        # assert convertation_result == Decimal('1.47') # курс меняется. Временная проверка.
+
     @pytest.mark.order1
     def test_convertation_get_summa(self):
         assert self.calc_page.convertation_block.summa == '100'
-    
+
     @pytest.mark.run(after='test_convertation_get_summa')
     def test_convertation_set_summa(self):
         new_summa = 1234567
@@ -48,8 +56,9 @@ class Test_CalcPage():
 if __name__ == '__main__':
     tst = Test_CalcPage()
     tst.setup_class()
-    tst.test_convertation_set_currency_from()
-    tst.test_convertation_set_currency_to()
+    tst.test_convert()
+    # tst.test_convertation_set_currency_from()
+    # tst.test_convertation_set_currency_to()
     # Test_CalcPage().test_convertation_set_currency_to()
     # import time
     # page = CalcPage(drivers.chrome(False), 'http://www.sberbank.ru/ru/quotes/converter')
