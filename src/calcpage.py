@@ -63,14 +63,12 @@ class ConvertationBlock():
     def _get_el_result_from(self):
         ''' результат конвертации - часть с суммой ИЗ которой конвертировали '''
         return WebDriverWait(self._driver, 2).until(
-                lambda el: self._driver.find_element(
-                    By.CSS_SELECTOR, 'span.rates-converter-result__total-from'),
+                lambda el: self._driver.find_element(*Locators.CONVERTATION_BLOC_RESULT_FROM),
                     message='Элемент не найден. Убедитесь, что была нажата кнопка Показать')
     def _get_el_result_to(self):
         ''' результат конвертации - часть с суммой В которую конвертировали '''
         return WebDriverWait(self._driver, 2).until(
-                lambda el: self._driver.find_element(
-                    By.CSS_SELECTOR, 'span.rates-converter-result__total-to'),
+                lambda el: self._driver.find_element(*Locators.CONVERTATION_BLOC_RESULT_TO),
                     message='Элемент не найден. Убедитесь, что была нажата кнопка Показать и что указанная пара валют котируется.')
 
     # ------ Свойства для клиентского кода
@@ -83,7 +81,11 @@ class ConvertationBlock():
     @property
     def summa(self):
         ''' Сумма конвертации '''
-        return self._get_el_summa().get_attribute('value')
+        sum = self._get_el_summa().get_attribute('value')
+        # калькулятор использует значения формата ddd,dd, но в поле ввода можно без них. Для стандартизации добавляю их сюда
+        if ',' not in sum:
+            sum += ',00'
+        return sum
 
     @summa.setter
     def summa(self, value):
@@ -117,10 +119,13 @@ class ConvertationBlock():
     def convert(self):
         ''' Нажимает кнопку Показать. Возвращает сконвертированную сумму '''
         self._get_el_show_button().click()
-
+        summa = self.summa
+        cur_from = self.currency_from
+        WebDriverWait(self._driver, 2).until(
+            EC.text_to_be_present_in_element(Locators.CONVERTATION_BLOC_RESULT_FROM, '{0} {1}'.format(summa, self.currency_from)))
         # проверка на ошибки при конвертации
         # TODO
 
         # возвращение результата - суммы конвертации
-        convertation_result = self._get_el_result_to().text.split(' ')[0]
+        convertation_result = self._get_el_result_to().text[:-4] # последние 4 символ - это пробел + код валюты
         return convertation_result
