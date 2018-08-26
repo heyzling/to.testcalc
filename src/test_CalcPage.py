@@ -1,8 +1,7 @@
 import pytest
-import drivers
 import re
-from calcpage import CalcPage
-from decimal import *
+from .api import drivers
+from .api.calcpage import CalcPage
 
 class Test_CalcPage():
 

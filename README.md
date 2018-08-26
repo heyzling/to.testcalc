@@ -18,6 +18,10 @@
 
 ## Описание проекта
 
+1. `src/api/calcpage.py` находится PageObject для доступа к странице.
+2. `src/api/drivers.py` - в модуле содержаться упрощенные методы получения драйверов. В случае, если не указаны пути для драйверов они будут скачаны (используется библиотека [**webdrvier_manager**](https://github.com/SergeyPirogov/webdriver_manager))
+
+
 NotImplemented ( =) )
 
 ### Yandex.Allure

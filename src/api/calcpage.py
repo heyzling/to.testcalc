@@ -1,3 +1,4 @@
+import allure
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -85,8 +86,11 @@ class ConvertationBlock():
         return self.format_sum(self._get_el_summa().get_attribute('value'))
 
     @summa.setter
+    @allure.step('Установить сумму: {value}')
     def summa(self, value):
         ''' Сумма конвертации '''
+        if not value: # для возможности создания сломанных тестов - т.е. тестов, которые падают не из-за ассерта
+            raise Exception('Сумма не может быть быт пустой строкой')
         summa_el = self._get_el_summa()
         summa_el.clear()
         summa_el.send_keys(str(value))
@@ -97,6 +101,7 @@ class ConvertationBlock():
         return self._get_el_currency_from().find_element(By.TAG_NAME, 'strong').text
 
     @currency_from.setter
+    @allure.step('Установить валюту ИЗ: {value}')
     def currency_from(self, value):
         ''' Валюта ИЗ которой происходит конвертация '''
         self._get_el_currency_from().click()
@@ -108,11 +113,13 @@ class ConvertationBlock():
         return self._get_el_currency_to().find_element(By.TAG_NAME, 'strong').text
 
     @currency_to.setter
+    @allure.step('Установить валюту В: {value}')
     def currency_to(self, value):
         ''' Целевая валюта В которую происходит конвертация '''
         self._get_el_currency_to().click()
         self._get_el_currency_item(value).click()
 
+    @allure.step('Сконвертировать')
     def convert(self):
         ''' Нажимает кнопку Показать. Возвращает сконвертированную сумму '''
         self._get_el_show_button().click()
