@@ -6,49 +6,46 @@ from .api.calcpage import CalcPage
 class Test_CalcPage():
 
     def setup_class(cls):
-        cls.calc_page = CalcPage(drivers.chrome(True), 'http://www.sberbank.ru/ru/quotes/converter')
+        cls.calc = CalcPage(drivers.chrome(True), 'http://www.sberbank.ru/ru/quotes/converter')
 
     def test_title(self):
-        assert self.calc_page.title == 'Калькулятор иностранных валют'
-
-    def test_convertation_title(self):
-        assert self.calc_page.convertation_block.title == 'Конвертация'
+        assert self.calc.title == 'Калькулятор иностранных валют'
 
     @pytest.mark.order0
     def test_convert(self):
-        convertation_result = self.calc_page.convertation_block.convert()
+        convertation_result = self.calc.convert()
         assert re.match('\d{1,},\d{2}', convertation_result) is not None
         # assert convertation_result == Decimal('1.47') # курс меняется. Временная проверка.
 
     @pytest.mark.order1
     def test_convertation_get_summa(self):
-        assert self.calc_page.convertation_block.summa == '100,00'
+        assert self.calc.summa == '100,00'
 
     @pytest.mark.run(after='test_convertation_get_summa')
     def test_convertation_set_summa(self):
         new_summa = 1234567
-        self.calc_page.convertation_block.summa = new_summa
-        assert self.calc_page.convertation_block.summa.replace(' ', '') == str(new_summa) + ',00'
+        self.calc.summa = new_summa
+        assert self.calc.summa.replace(' ', '') == str(new_summa) + ',00'
 
     @pytest.mark.order1
     def test_convertation_get_currency_from(self):
-        assert self.calc_page.convertation_block.currency_from == 'RUB'
+        assert self.calc.currency_from == 'RUB'
 
     @pytest.mark.run(after='test_convertation_get_currency_from')
     def test_convertation_set_currency_from(self):
         new_currency_from = 'CZK'
-        self.calc_page.convertation_block.currency_from = new_currency_from
-        assert self.calc_page.convertation_block.currency_from == new_currency_from
+        self.calc.currency_from = new_currency_from
+        assert self.calc.currency_from == new_currency_from
 
     @pytest.mark.order1
     def test_convertation_get_currency_to(self):
-        assert self.calc_page.convertation_block.currency_to == 'USD'
+        assert self.calc.currency_to == 'USD'
 
     @pytest.mark.run(after='test_convertation_get_currency_to')
     def test_convertation_set_currency_to(self):
         new_currency_to = 'SGD'
-        self.calc_page.convertation_block.currency_to = new_currency_to
-        assert self.calc_page.convertation_block.currency_to == new_currency_to
+        self.calc.currency_to = new_currency_to
+        assert self.calc.currency_to == new_currency_to
 
 
 if __name__ == '__main__':
@@ -60,9 +57,9 @@ if __name__ == '__main__':
     # Test_CalcPage().test_convertation_set_currency_to()
     # import time
     # page = CalcPage(drivers.chrome(False), 'http://www.sberbank.ru/ru/quotes/converter')
-    # # # page.convertation_block.currency_from = 'USD'
-    # # # page.convertation_block.currency_from = 'EUR'
-    # # # page.convertation_block.currency_from = 'KZT'
-    # # # page.convertation_block.currency_from = 'RUB'
+    # # # page.currency_from = 'USD'
+    # # # page.currency_from = 'EUR'
+    # # # page.currency_from = 'KZT'
+    # # # page.currency_from = 'RUB'
 
-    # page.convertation_block.currency_to = 'KZT'
+    # page.currency_to = 'KZT'

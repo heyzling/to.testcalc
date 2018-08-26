@@ -16,52 +16,40 @@ class CalcPage():
         self._url = url
         self._driver.get(url)
         
+        self.__el_convert = WebDriverWait(self._driver, 5)\
+            .until(lambda el: self._driver.find_element(*Locators.CONVERTATION_BLOCK))
+
         # отключить назойливую плашку с сообщением о политике сборка Кук. Из-за нее едет весь скрипт
         policy_close = WebDriverWait(self._driver, 2).until(EC.presence_of_element_located(Locators.CLOSE_POLICY))
         self._driver.execute_script('arguments[0].click()', policy_close)
         WebDriverWait(self._driver, 2).until_not(EC.visibility_of_element_located(Locators.CLOSE_POLICY))
 
-    @property
-    def title(self):
-        ''' Текста заголовка страницы '''
-        return self._driver.find_element_by_css_selector('h1').text
-
-    @property
-    def convertation_block(self):
-        ''' Блок конвертации валют '''
-        return ConvertationBlock(self)
-
-class ConvertationBlock():
-    ''' Блок конвертации валют. Главный управляющий блок приложения на странице. '''
-
-    def __init__(self, parent_page):
-        self._parent_page = parent_page
-        self._driver = parent_page._driver
-        self._el = WebDriverWait(self._driver, 5)\
-            .until(lambda el: self._driver.find_element(*Locators.CONVERTATION_BLOCK))
-
     # ------- Методы для внутреннего использования. Должны возвращать WebElement
+    @property
+    def _el_convert(self):
+        ''' блок с настройками калькулятора - статический '''
+        return self.__el_convert
     def _get_el_title(self):
         ''' заголовок блок Конвертация'''
-        return self._el.find_element(*Locators.CONVERTATION_BLOCK_TITLE)
+        return self._el_convert.find_element(*Locators.CONVERTATION_BLOCK_TITLE)
     def _get_el_summa(self):
         ''' Поле для ввода суммы для конвертации'''
-        return self._el.find_element(*Locators.CONVERTATION_BLOCK_SUMMA)
+        return self._el_convert.find_element(*Locators.CONVERTATION_BLOCK_SUMMA)
     def _get_el_currency_from(self):
         ''' списко с выбором валюты ИЗ которой надо конверитровать '''
-        return self._el.find_element(*Locators.CONVERTATION_BLOCK_CURRENCY_FROM)
+        return self._el_convert.find_element(*Locators.CONVERTATION_BLOCK_CURRENCY_FROM)
     def _get_el_currency_to(self):
         ''' списко с выбором валюты В которую надо конверитровать '''
-        return self._el.find_element(*Locators.CONVERTATION_BLOCK_CURRENCY_TO)
+        return self._el_convert.find_element(*Locators.CONVERTATION_BLOCK_CURRENCY_TO)
     def _get_el_currency_item(self, currency_name):
         ''' Трехбуквенное имя валюты, которая расположена в списках ИЗ/В.  '''
         return WebDriverWait(self._driver, 2).until(
-                lambda el: self._el.find_element(
+                lambda el: self._el_convert.find_element(
                     By.XPATH, '//div[@class="visible"]/span[contains(text(), "{0}")]'.format(currency_name)),
                     message="Указанная валюта '{0}' не найдена. Проверьте, что список открыт, и что валюта в нем существует.".format(currency_name))
     def _get_el_show_button(self):
         ''' Кнопка Показать, которая запускает вычисления '''
-        return self._el.find_element(By.CLASS_NAME, 'rates-button')
+        return self._el_convert.find_element(By.CLASS_NAME, 'rates-button')
     def _get_el_result_from(self):
         ''' результат конвертации - часть с суммой ИЗ которой конвертировали '''
         return WebDriverWait(self._driver, 2).until(
@@ -77,8 +65,8 @@ class ConvertationBlock():
 
     @property
     def title(self):
-        ''' Текст заголовка блока '''
-        return self._get_el_title().text
+        ''' Текста заголовка страницы '''
+        return self._driver.find_element_by_css_selector('h1').text
 
     @property
     def summa(self):
@@ -140,3 +128,6 @@ class ConvertationBlock():
         if ',' not in sum:
             sum += ',00'
         return sum
+
+
+    

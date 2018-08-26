@@ -2,7 +2,6 @@ import os
 import pytest
 import allure
 import xml.etree.ElementTree as ET
-from allure_steps import *
 from api import drivers
 from api.calcpage import CalcPage
 
@@ -33,10 +32,10 @@ class TestFunctional(object):
     scenarios = get_scenarios(SCENARIOS_XML)
 
     def setup_class(cls):
-        cls.calc = CalcPage(drivers.chrome(), 'http://www.sberbank.ru/ru/quotes/converter').convertation_block
+        cls.calc = CalcPage(drivers.chrome(True), 'http://www.sberbank.ru/ru/quotes/converter')
 
     def test_calc(self, sum, cur_from, cur_to, expect):
-        ''' параметризированный тест правильность подсчета '''
+        ''' параметризированный тест на правильность подсчета '''
         self.calc.summa = sum
         self.calc.currency_from = cur_from
         self.calc.currency_to = cur_to
