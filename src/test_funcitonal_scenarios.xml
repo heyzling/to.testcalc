@@ -1,5 +1,5 @@
 <scanarios>
-    <scenario name='first' sum='200' cur_from='RUB' cur_to='EUR' expect='2,52' />
-    <scenario name='first' sum='500' cur_from='CAD' cur_to='JPY' expect='39 790,37' />
-    <scenario name='first' sum='999 999 999' cur_from='DKK' cur_to='SGD' expect='189 142 528,11' />
+    <scenario name='демо: статус Passed' sum='200' cur_from='RUB' cur_to='EUR' expect='2,52' />
+    <scenario name='демо: статус Broken' sum='' cur_from='CAD' cur_to='JPY' expect='39 790,37' />
+    <scenario name='демо: статус Failed' sum='999 999 999' cur_from='DKK' cur_to='SGD' expect='189 937 234,42' />
 </scanarios>
