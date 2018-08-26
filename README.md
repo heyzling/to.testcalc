@@ -41,5 +41,5 @@ pip install -r requirements.txt
 ```sh
 cd to.testcalc
 pytest --alluredir=reports
-"allure/bin/allure" server reports
+"allure/bin/allure" serve reports
 ```
