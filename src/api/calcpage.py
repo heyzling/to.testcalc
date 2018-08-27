@@ -122,6 +122,12 @@ class CalcPage():
         convertation_result = self._get_el_result_to().text[:-4] # последние 4 символ - это пробел + код валюты
         return convertation_result
 
+    @allure.step('Установить время: {value}')
+    def time(self, value):
+        ''' Установить время '''
+        # https://stackoverflow.com/questions/2856513/how-can-i-trigger-an-onchange-event-manually
+        pass
+
     def format_sum(self, sum):
         ''' Форматированние суммы. Для стандартизация. '''
         # калькулятор использует значения формата ddd,dd, но в поле ввода можно без них. Для стандартизации добавляю их сюда
